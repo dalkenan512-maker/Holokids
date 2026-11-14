@@ -1,1 +1,80 @@
 
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HoloKids</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5ff;color:#26335b}
+header{padding:18px;text-align:center;background:#7657e8;color:white}
+header h1{margin:0;font-size:28px}
+header p{margin:6px 0 0}
+.ages{display:flex;gap:10px;padding:14px}
+.ages button{flex:1;border:0;border-radius:18px;padding:13px;background:white;color:#654bd0;font-weight:bold;font-size:16px}
+.ages button.active{background:#7657e8;color:white}
+.video{margin:8px auto;width:92%;height:55vh;min-height:350px;border-radius:25px;background:linear-gradient(145deg,#ffc8df,#a9d9ff);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;position:relative;overflow:hidden}
+.video .emoji{font-size:90px}
+.video h2{font-size:25px}
+.video p{font-size:16px}
+.video button{border:0;border-radius:20px;padding:12px 22px;background:white;color:#654bd0;font-weight:bold}
+.controls{text-align:center;padding:12px}
+.controls button{border:0;background:#7657e8;color:white;padding:13px 25px;border-radius:20px;font-size:16px}
+nav{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:15px 4px;box-shadow:0 -2px 12px #0001}
+nav span{font-size:13px;text-align:center}
+main{padding-bottom:75px}
+</style>
+</head>
+<body>
+<header>
+<h1>🌈 HoloKids</h1>
+<p>Keşfet • Öğren • Eğlen</p>
+</header>
+<main>
+<div class="ages">
+<button class="active" onclick="age(0,this)">4–7 yaş 🧸</button>
+<button onclick="age(1,this)">8–12 yaş 🚀</button>
+</div>
+<section class="video" id="video">
+<div class="emoji" id="emoji">🐱</div>
+<h2 id="heading">Minik dostlarla tanış!</h2>
+<p id="description">Eğlenceli dünyayı keşfetmeye hazır mısın?</p>
+<button onclick="nextVideo()">Videoyu keşfet ▶</button>
+</section>
+<div class="controls">
+<button onclick="nextVideo()">⬆ Sonraki video</button>
+</div>
+</main>
+<nav>
+<span>🏠<br>Ana Sayfa</span>
+<span>🧩<br>Oyunlar</span>
+<span>⭐<br>Favoriler</span>
+<span>👨‍👩‍👧<br>Aile</span>
+</nav>
+<script>
+const videos=[
+{emoji:"🐱",title:"Minik dostlarla tanış!",desc:"Hayvanlar dünyasını keşfet."},
+{emoji:"🦕",title:"Dinozor zamanı!",desc:"Tarih öncesine eğlenceli yolculuk."},
+{emoji:"🚀",title:"Uzaya yolculuk!",desc:"Gezegenleri birlikte öğrenelim."},
+{emoji:"🌈",title:"Renkleri keşfet!",desc:"Renkli dünyaya hoş geldin."}
+];
+let current=0;
+function nextVideo(){
+current=(current+1)%videos.length;
+document.getElementById("emoji").textContent=videos[current].emoji;
+document.getElementById("heading").textContent=videos[current].title;
+document.getElementById("description").textContent=videos[current].desc;
+}
+function age(n,btn){
+document.querySelectorAll(".ages button").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+current=0;
+document.getElementById("emoji").textContent=n?"🚀":"🐱";
+document.getElementById("heading").textContent=n?"Büyük kaşifler burada!":"Minik dostlarla tanış!";
+document.getElementById("description").textContent=n?"Bilim, keşif ve eğlence!":"Oyun, hayvanlar ve renkler!";
+}
+</script>
+</body>
+</html>
+
