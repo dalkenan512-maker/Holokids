@@ -3,77 +3,284 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HoloKids</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#7657e8">
+<title>HoloKids - Eğlen ve Keşfet</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f1f5ff;color:#26335b}
-header{padding:18px;text-align:center;background:#7657e8;color:white}
-header h1{margin:0;font-size:28px}
-header p{margin:6px 0 0}
-.ages{display:flex;gap:10px;padding:14px}
-.ages button{flex:1;border:0;border-radius:18px;padding:13px;background:white;color:#654bd0;font-weight:bold;font-size:16px}
-.ages button.active{background:#7657e8;color:white}
-.video{margin:8px auto;width:92%;height:55vh;min-height:350px;border-radius:25px;background:linear-gradient(145deg,#ffc8df,#a9d9ff);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;position:relative;overflow:hidden}
-.video .emoji{font-size:90px}
-.video h2{font-size:25px}
-.video p{font-size:16px}
-.video button{border:0;border-radius:20px;padding:12px 22px;background:white;color:#654bd0;font-weight:bold}
-.controls{text-align:center;padding:12px}
-.controls button{border:0;background:#7657e8;color:white;padding:13px 25px;border-radius:20px;font-size:16px}
-nav{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:15px 4px;box-shadow:0 -2px 12px #0001}
-nav span{font-size:13px;text-align:center}
-main{padding-bottom:75px}
+body{
+ margin:0;background:#17132d;color:white;
+ font-family:Arial,sans-serif;
+}
+header{
+ height:58px;background:#7657e8;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 17px;font-weight:bold;font-size:22px;
+}
+.logo{font-size:24px}
+.agebar{
+ display:flex;gap:10px;padding:12px;
+ background:#211b3b;
+}
+.agebar button{
+ flex:1;padding:12px;border:0;border-radius:18px;
+ background:#393052;color:white;font-weight:bold;
+}
+.agebar button.active{background:#ffb8dc;color:#40205e}
+#feed{
+ height:calc(100dvh - 178px);
+ overflow-y:auto;scroll-snap-type:y mandatory;
+}
+.video-card{
+ height:100%;min-height:450px;
+ scroll-snap-align:start;position:relative;
+ display:flex;align-items:center;justify-content:center;
+ overflow:hidden;text-align:center;padding:20px;
+}
+.video-card video{
+ position:absolute;width:100%;height:100%;
+ object-fit:cover;inset:0;background:#282044;
+}
+.overlay{
+ position:absolute;inset:0;
+ background:linear-gradient(transparent 40%,#000a);
+}
+.info{
+ position:absolute;bottom:25px;left:18px;right:85px;
+ text-align:left;z-index:2;
+}
+.info h2{font-size:24px;margin-bottom:8px}
+.info p{font-size:15px}
+.actions{
+ position:absolute;right:15px;bottom:45px;
+ z-index:3;display:flex;flex-direction:column;gap:18px;
+}
+.action{
+ border:0;background:#ffffff30;color:white;
+ border-radius:50%;width:52px;height:52px;
+ font-size:25px;
+}
+.action-label{text-align:center;font-size:11px}
+nav{
+ height:60px;position:fixed;bottom:0;left:0;right:0;
+ background:#211b3b;display:flex;
+ justify-content:space-around;align-items:center;
+ z-index:10;
+}
+nav button{
+ background:none;border:0;color:white;
+ font-size:12px;display:flex;flex-direction:column;
+ align-items:center;gap:4px;
+}
+nav strong{font-size:21px}
+.page{display:none;padding:20px 16px 85px}
+.page.active{display:block}
+.panel{
+ background:#292344;padding:20px;border-radius:20px;
+ margin:15px 0;
+}
+.big-emoji{font-size:55px}
+.game-button{
+ border:0;background:#ffb8dc;color:#45215e;
+ padding:13px 20px;border-radius:20px;font-weight:bold;
+}
+#gameResult{font-size:22px;margin-top:15px}
+input{
+ padding:13px;border:0;border-radius:12px;
+ font-size:17px;width:100%;margin:10px 0;
+}
+.small{color:#d5cbea;font-size:13px;line-height:1.5}
 </style>
 </head>
+
 <body>
+
 <header>
-<h1>🌈 HoloKids</h1>
-<p>Keşfet • Öğren • Eğlen</p>
+ <span class="logo">🌈 HoloKids</span>
+ <span>⭐ <span id="points">0</span></span>
 </header>
+
+<div class="agebar" id="agebar">
+ <button class="active" onclick="changeAge('small',this)">🧸 4–7 yaş</button>
+ <button onclick="changeAge('big',this)">🚀 8–12 yaş</button>
+</div>
+
 <main>
-<div class="ages">
-<button class="active" onclick="age(0,this)">4–7 yaş 🧸</button>
-<button onclick="age(1,this)">8–12 yaş 🚀</button>
-</div>
-<section class="video" id="video">
-<div class="emoji" id="emoji">🐱</div>
-<h2 id="heading">Minik dostlarla tanış!</h2>
-<p id="description">Eğlenceli dünyayı keşfetmeye hazır mısın?</p>
-<button onclick="nextVideo()">Videoyu keşfet ▶</button>
+
+<section id="home" class="page active" style="padding:0">
+ <div id="feed"></div>
 </section>
-<div class="controls">
-<button onclick="nextVideo()">⬆ Sonraki video</button>
-</div>
+
+<section id="games" class="page">
+ <h2>🧩 HoloKids Oyunları</h2>
+ <div class="panel">
+  <div class="big-emoji">🎨</div>
+  <h3>Renkleri tahmin et!</h3>
+  <p>Doğru rengi seç ve yıldız kazan.</p>
+  <button class="game-button" onclick="playGame()">Oyuna başla</button>
+  <div id="gameResult"></div>
+ </div>
+ <div class="panel">
+  <div class="big-emoji">🦁</div>
+  <h3>Hayvanları keşfet</h3>
+  <p>Yeni hayvanlar öğren, dünyayı keşfet.</p>
+ </div>
+</section>
+
+<section id="favorites" class="page">
+ <h2>⭐ Favorilerim</h2>
+ <div id="favoriteList"></div>
+</section>
+
+<section id="parent" class="page">
+ <h2>👨‍👩‍👧 Ebeveyn Alanı</h2>
+ <div class="panel">
+  <h3>🔐 Ebeveyn kontrolü</h3>
+  <p class="small">Bu demo alanı için PIN: 1234</p>
+  <input id="pin" type="password" inputmode="numeric" placeholder="Ebeveyn PIN'i">
+  <button class="game-button" onclick="parentLogin()">Giriş yap</button>
+  <div id="parentContent" class="small"></div>
+ </div>
+ <div class="panel">
+  <h3>🛡️ Güvenlik</h3>
+  <p class="small">Bu prototipte özel mesajlaşma, konum paylaşımı veya çocuklardan kişisel bilgi toplama bulunmaz. Gerçek yayın öncesi ebeveyn onayı, içerik denetimi ve veri koruma altyapısı kurulmalıdır.</p>
+ </div>
+</section>
+
 </main>
+
 <nav>
-<span>🏠<br>Ana Sayfa</span>
-<span>🧩<br>Oyunlar</span>
-<span>⭐<br>Favoriler</span>
-<span>👨‍👩‍👧<br>Aile</span>
+ <button onclick="showPage('home')"><strong>🏠</strong>Ana Sayfa</button>
+ <button onclick="showPage('games')"><strong>🧩</strong>Oyunlar</button>
+ <button onclick="showPage('favorites')"><strong>⭐</strong>Favoriler</button>
+ <button onclick="showPage('parent')"><strong>👨‍👩‍👧</strong>Aile</button>
 </nav>
+
 <script>
-const videos=[
-{emoji:"🐱",title:"Minik dostlarla tanış!",desc:"Hayvanlar dünyasını keşfet."},
-{emoji:"🦕",title:"Dinozor zamanı!",desc:"Tarih öncesine eğlenceli yolculuk."},
-{emoji:"🚀",title:"Uzaya yolculuk!",desc:"Gezegenleri birlikte öğrenelim."},
-{emoji:"🌈",title:"Renkleri keşfet!",desc:"Renkli dünyaya hoş geldin."}
-];
-let current=0;
-function nextVideo(){
-current=(current+1)%videos.length;
-document.getElementById("emoji").textContent=videos[current].emoji;
-document.getElementById("heading").textContent=videos[current].title;
-document.getElementById("description").textContent=videos[current].desc;
+const content={
+ small:[
+  {title:"Renkli dünyaya hoş geldin!",desc:"Renkleri ve doğayı keşfet!",emoji:"🌈",video:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"},
+  {title:"Minik doğa kaşifleri",desc:"Çiçeklerin dünyasını keşfet!",emoji:"🌸",video:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"},
+  {title:"Yeni şeyler öğren!",desc:"Eğlenceli keşif zamanı!",emoji:"🦋",video:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"}
+ ],
+ big:[
+  {title:"Bilim ve keşif zamanı!",desc:"Dünyanın güzelliklerini keşfet.",emoji:"🚀",video:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"},
+  {title:"Doğayı tanı!",desc:"Bitkiler ve yaşam hakkında öğren.",emoji:"🌍",video:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"},
+  {title:"Merak et, öğren, keşfet!",desc:"Her gün yeni bir bilgi.",emoji:"🔬",video:"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"}
+ ]
+};
+
+let selectedAge="small";
+let favorites=[];
+let points=0;
+
+function renderFeed(){
+ const feed=document.getElementById("feed");
+ feed.innerHTML="";
+ content[selectedAge].forEach((item,index)=>{
+  const card=document.createElement("article");
+  card.className="video-card";
+  card.innerHTML=`
+   <video src="${item.video}" playsinline muted loop preload="metadata"></video>
+   <div class="overlay"></div>
+   <div style="position:absolute;top:25px;font-size:70px;z-index:2">${item.emoji}</div>
+   <div class="info">
+    <h2>${item.title}</h2><p>${item.desc}</p>
+    <p>🌈 HoloKids</p>
+   </div>
+   <div class="actions">
+    <div><button class="action" onclick="like(this)">♡</button><div class="action-label">Beğen</div></div>
+    <div><button class="action" onclick="addFavorite(${index})">⭐</button><div class="action-label">Favori</div></div>
+   </div>`;
+  feed.appendChild(card);
+ });
+ setupVideos();
 }
-function age(n,btn){
-document.querySelectorAll(".ages button").forEach(b=>b.classList.remove("active"));
-btn.classList.add("active");
-current=0;
-document.getElementById("emoji").textContent=n?"🚀":"🐱";
-document.getElementById("heading").textContent=n?"Büyük kaşifler burada!":"Minik dostlarla tanış!";
-document.getElementById("description").textContent=n?"Bilim, keşif ve eğlence!":"Oyun, hayvanlar ve renkler!";
+
+function setupVideos(){
+ const videos=document.querySelectorAll("#feed video");
+ const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+   const video=entry.target;
+   if(entry.isIntersecting){
+    videos.forEach(v=>{if(v!==video)v.pause()});
+    video.play().catch(()=>{});
+   }else video.pause();
+  });
+ },{threshold:0.65});
+ videos.forEach(v=>observer.observe(v));
 }
+
+function changeAge(age,button){
+ selectedAge=age;
+ document.querySelectorAll(".agebar button").forEach(b=>b.classList.remove("active"));
+ button.classList.add("active");
+ renderFeed();
+}
+
+function like(button){
+ button.textContent=button.textContent==="♡"?"❤️":"♡";
+}
+
+function addFavorite(index){
+ const item=content[selectedAge][index];
+ if(!favorites.some(f=>f.title===item.title)){
+  favorites.push(item);
+  alert("Favorilerine eklendi ⭐");
+ }else{
+  alert("Bu içerik zaten favorilerinde.");
+ }
+}
+
+function showFavorites(){
+ const list=document.getElementById("favoriteList");
+ list.innerHTML=favorites.length?"":"<p>Henüz favori içerik yok.</p>";
+ favorites.forEach(item=>{
+  const div=document.createElement("div");
+  div.className="panel";
+  const title=document.createElement("h3");
+  title.textContent=item.emoji+" "+item.title;
+  const desc=document.createElement("p");
+  desc.textContent=item.desc;
+  div.append(title,desc);
+  list.appendChild(div);
+ });
+}
+
+function showPage(page){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(page).classList.add("active");
+ document.getElementById("agebar").style.display=page==="home"?"flex":"none";
+ if(page==="home")setupVideos();
+ if(page==="favorites")showFavorites();
+}
+
+function playGame(){
+ const colors=["🔴 Kırmızı","🔵 Mavi","🟡 Sarı"];
+ const correct=colors[Math.floor(Math.random()*colors.length)];
+ const answer=prompt("Hangisini seçiyorsun?\n🔴 Kırmızı\n🔵 Mavi\n🟡 Sarı");
+ const result=document.getElementById("gameResult");
+ if(answer&&answer.toLowerCase().trim()===correct.toLowerCase().trim()){
+  points++;
+  document.getElementById("points").textContent=points;
+  result.textContent="Harika! ⭐ Bir yıldız kazandın!";
+ }else{
+  result.textContent="Bir daha deneyebilirsin! Doğru cevap: "+correct;
+ }
+}
+
+function parentLogin(){
+ const pin=document.getElementById("pin").value;
+ const output=document.getElementById("parentContent");
+ if(pin==="1234"){
+  output.textContent="Demo ebeveyn alanı açıldı. Bu PIN yalnızca prototip içindir; gerçek güvenlik sağlamaz.";
+ }else{
+  output.textContent="PIN yanlış. Tekrar dene.";
+ }
+}
+
+renderFeed();
 </script>
 </body>
 </html>
