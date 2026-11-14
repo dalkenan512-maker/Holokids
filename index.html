@@ -1,226 +1,196 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HoloKids</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#171b3b">
+<title>HoloKids – Masal, Oyun ve Keşif Dünyası</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#101426;color:white;font-family:Arial,sans-serif}
-header{height:60px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;background:#191f38;position:sticky;top:0;z-index:5}
-.logo{font-size:23px;font-weight:900;color:#ffdf65}
-button{border:0;border-radius:20px;padding:10px 15px;font-weight:bold;cursor:pointer}
-nav{display:flex;gap:8px;padding:10px;background:#191f38}
-nav button{flex:1;background:#303958;color:white}
-nav button.active{background:#ffcf54;color:#242424}
-#feed{height:calc(100dvh - 120px);overflow-y:auto;scroll-snap-type:y mandatory}
-.video{height:100%;min-height:500px;position:relative;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(145deg,var(--a),var(--b))}
-.scene{position:absolute;inset:0;overflow:hidden}
-.character{position:absolute;top:36%;left:50%;transform:translate(-50%,-50%);font-size:clamp(90px,24vw,150px);animation:bounce 2s ease-in-out infinite;filter:drop-shadow(0 12px 12px #0003)}
-@keyframes bounce{0%,100%{transform:translate(-50%,-50%) rotate(-7deg) scale(1)}50%{transform:translate(-50%,-58%) rotate(7deg) scale(1.12)}}
-.orb{position:absolute;font-size:30px;animation:float 5s linear infinite}
-@keyframes float{0%{transform:translateY(110vh) rotate(0)}100%{transform:translateY(-20vh) rotate(360deg)}}
-.videoInfo{position:absolute;bottom:25px;left:18px;right:75px;text-shadow:0 2px 8px #000}
-.videoInfo h2{margin:0 0 8px;font-size:24px}
-.videoInfo p{margin:0;font-size:14px}
-.actions{position:absolute;right:14px;bottom:35px;display:grid;gap:18px;text-align:center}
-.actions button{background:#ffffff25;color:white;font-size:22px;padding:10px}
-.actions small{display:block;font-size:12px}
-#game{display:none;padding:20px;text-align:center;min-height:calc(100dvh - 120px)}
-#gameArea{height:55vh;min-height:300px;position:relative;background:linear-gradient(#7ed9ff,#c6f4ff);border-radius:24px;overflow:hidden;margin-top:15px}
-#star{position:absolute;font-size:48px;background:none;padding:0}
-#score{font-size:24px;color:#ffdc58}
-#game button{background:#ffcf54;color:#222}
-#parent{display:none;padding:20px;line-height:1.6}
-footer{text-align:center;color:#aab2cf;padding:12px;font-size:11px}
+:root{--ink:#20234a;--muted:#697092;--cream:#fff9ee;--pink:#ff78a8;--yellow:#ffd65e;--blue:#70d9f5;--purple:#9a83ff;--green:#83dfad}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f4ff;color:var(--ink);font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif}button{font:inherit;cursor:pointer;border:0}button:focus-visible{outline:4px solid #ffbd45;outline-offset:3px}.app{max-width:1200px;margin:auto;min-height:100vh;background:#f8f7ff}.top{position:sticky;top:0;z-index:20;background:#171b3b;color:white;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 5px 18px #10132b25}.brand{display:flex;align-items:center;gap:9px;font-size:22px;font-weight:1000;letter-spacing:-.7px}.brand-mark{width:42px;height:42px;border-radius:15px;background:linear-gradient(135deg,#ffdf75,#ff83ae);display:grid;place-items:center;font-size:26px}.top-actions{display:flex;gap:8px;align-items:center}.pill{background:#30365f;color:white;border-radius:22px;padding:9px 13px;font-weight:800}.coin{background:#fff0b9;color:#624600;border-radius:22px;padding:9px 12px;font-weight:900}.hero{margin:18px;border-radius:28px;padding:24px;color:white;position:relative;overflow:hidden;background:linear-gradient(120deg,#6559d9,#9d72ed 55%,#ff91b6);min-height:220px;display:flex;align-items:center}.hero:after{content:"🌈";position:absolute;right:6%;bottom:-24px;font-size:150px;opacity:.45;transform:rotate(-12deg)}.hero-copy{position:relative;z-index:1;max-width:580px}.eyebrow{text-transform:uppercase;letter-spacing:1.8px;font-size:11px;font-weight:900;opacity:.85}.hero h1{font-size:clamp(28px,5vw,48px);line-height:1.03;margin:9px 0}.hero p{font-size:15px;max-width:470px;line-height:1.5}.primary{background:#ffdf68;color:#433400;padding:12px 18px;border-radius:18px;font-weight:1000;box-shadow:0 5px 0 #d5a936}.primary:active{transform:translateY(3px);box-shadow:0 2px 0 #d5a936}.nav{display:flex;gap:8px;overflow:auto;padding:0 18px 14px;scrollbar-width:none}.nav button{white-space:nowrap;border-radius:18px;background:white;color:#555b7d;padding:11px 15px;font-weight:900;box-shadow:0 3px 12px #30305c0c}.nav button.active{background:#24284f;color:white}.page{display:none;padding:4px 18px 32px}.page.active{display:block}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:14px 0}.section-head h2{margin:0;font-size:23px}.section-head p{margin:4px 0 0;color:var(--muted);font-size:13px}.chips{display:flex;gap:8px;overflow:auto;padding:5px 0 13px}.chip{background:white;color:#5d6281;border:2px solid transparent;padding:8px 13px;border-radius:20px;font-size:13px;font-weight:900;white-space:nowrap}.chip.active{border-color:#8c79f7;color:#5445b5;background:#f0edff}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:14px}.tile{background:white;border-radius:22px;overflow:hidden;box-shadow:0 5px 18px #30305c12;transition:.2s}.tile:hover{transform:translateY(-3px)}.tile-art{height:132px;display:grid;place-items:center;font-size:67px;position:relative;overflow:hidden}.tile-art:before,.tile-art:after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;background:#ffffff35;top:-30px;left:-15px}.tile-art:after{width:50px;height:50px;top:auto;left:auto;bottom:-15px;right:8px}.tile-art span{position:relative;z-index:1;filter:drop-shadow(0 7px 5px #0002);animation:bob 2.5s ease-in-out infinite}.tile-body{padding:12px}.tile-body strong{display:block;font-size:14px}.tile-body small{display:block;color:#777c98;margin:5px 0 10px}.tile-body button{width:100%;border-radius:13px;background:#f0edff;color:#574ab2;padding:9px;font-weight:900}.tag{display:inline-block;background:#fff0c5;color:#795b00;border-radius:20px;padding:4px 8px;font-size:10px;font-weight:900;margin-bottom:6px}@keyframes bob{50%{transform:translateY(-8px) rotate(5deg)}}.wide-card{background:white;border-radius:24px;padding:17px;margin:15px 0;box-shadow:0 5px 18px #30305c0c}.progress{height:10px;background:#ecebfa;border-radius:10px;overflow:hidden}.progress span{display:block;height:100%;background:linear-gradient(90deg,#7bdbbd,#8a79f6);width:35%;border-radius:10px}.story-view{display:none;position:fixed;inset:0;z-index:50;background:#141832;color:white;overflow:auto}.story-view.open{display:block}.story-top{height:58px;display:flex;align-items:center;gap:12px;padding:10px 14px;background:#10132b}.close{background:#ffffff20;color:white;border-radius:50%;width:38px;height:38px;font-size:20px}.story-progress{height:5px;background:#ffffff30;flex:1;border-radius:9px;overflow:hidden}.story-progress span{display:block;height:100%;width:0;background:#ffdc69;transition:width .3s}.story-counter{font-size:12px;color:#e4e5ff}.stage{min-height:calc(100dvh - 145px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;background:radial-gradient(circle at 50% 25%,var(--s1),var(--s2));position:relative;overflow:hidden;text-align:center}.scene-emoji{font-size:clamp(90px,24vw,170px);filter:drop-shadow(0 15px 10px #0003);animation:sceneBob 2.8s ease-in-out infinite}.scene-title{font-size:clamp(24px,5vw,38px);font-weight:1000;margin:14px 0 7px;text-shadow:0 3px 10px #0002}.scene-text{max-width:650px;font-size:clamp(16px,3vw,21px);line-height:1.6;background:#171b3b50;border:1px solid #ffffff35;padding:17px 20px;border-radius:22px}.scene-spark{position:absolute;font-size:26px;animation:drift 8s linear infinite;opacity:.75}@keyframes sceneBob{50%{transform:translateY(-15px) rotate(4deg) scale(1.04)}}@keyframes drift{from{transform:translateY(110vh) rotate(0)}to{transform:translateY(-20vh) rotate(300deg)}}.story-controls{position:sticky;bottom:0;background:#10132b;padding:12px 16px;display:flex;justify-content:space-between;gap:10px}.story-controls button{border-radius:16px;padding:12px 18px;font-weight:900}.secondary{background:#30365f;color:white}.next{background:#ffdc69;color:#453500}.game-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}.game-card{background:white;border-radius:23px;padding:18px;text-align:center;box-shadow:0 5px 18px #30305c0c}.game-icon{font-size:62px}.game-card h3{margin:8px 0}.game-card p{font-size:13px;color:var(--muted);min-height:38px}.game-card button{background:#eae7ff;color:#5143ae;border-radius:14px;padding:10px 14px;font-weight:900}.playbox{background:#fff;border-radius:25px;padding:18px;margin-top:15px;box-shadow:0 5px 18px #30305c12;text-align:center}.play-area{height:300px;border-radius:20px;background:linear-gradient(#9ce8ff,#e3faff);position:relative;overflow:hidden;margin:12px 0}.target{position:absolute;font-size:43px;background:transparent;padding:0;touch-action:manipulation}.answer{background:#f0edff;color:#4e43a2;border-radius:15px;padding:12px;margin:5px;font-weight:900}.memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:440px;margin:15px auto}.memory-card{height:68px;border-radius:14px;background:#7667dc;color:white;font-size:27px;font-weight:900}.memory-card.opened{background:#fff0c5;color:#4e3d00}.draw-tools{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.draw-tools button{border-radius:14px;background:#eeeaff;padding:10px}.canvas-wrap{background:white;border:2px dashed #aaa4d9;border-radius:18px;overflow:hidden;max-width:650px;margin:12px auto}.canvas-wrap canvas{display:block;width:100%;height:320px;touch-action:none}.footer{text-align:center;color:#8a8eaa;font-size:12px;padding:25px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#20234a;color:white;padding:12px 18px;border-radius:22px;z-index:90;box-shadow:0 8px 25px #0003;display:none}.toast.show{display:block}.search{width:100%;padding:13px 16px;border:2px solid #e8e5fb;border-radius:16px;font:inherit;outline:none}.badge-row{display:flex;gap:7px;flex-wrap:wrap}.badge{background:#f0edff;color:#5b4db4;border-radius:20px;padding:7px 10px;font-size:12px;font-weight:900}.parent-note{background:#fff4d6;border-radius:18px;padding:15px;color:#65501c;line-height:1.55;font-size:13px}
+@media(min-width:760px){.hero{margin-top:22px}.page{padding-left:26px;padding-right:26px}.nav{padding-left:26px}.grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}.tile-art{height:155px}}
 </style>
 </head>
 <body>
-<header>
-  <div class="logo">🌈 HoloKids</div>
-  <button onclick="showParent()">👨‍👩‍👧 Ebeveyn</button>
+<div class="app">
+<header class="top">
+ <div class="brand"><div class="brand-mark">🌈</div> HoloKids</div>
+ <div class="top-actions"><div class="coin">⭐ <span id="coins">0</span></div><button class="pill" onclick="go('parent')">👨‍👩‍👧</button></div>
 </header>
-
-<nav>
-  <button id="feedTab" class="active" onclick="showPage('feed')">🎬 Videolar</button>
-  <button id="gameTab" onclick="showPage('game')">🎮 Oyun</button>
+<section class="hero">
+ <div class="hero-copy"><div class="eyebrow">Hayal et · Keşfet · Öğren</div><h1>Macera şimdi<br>başlıyor! ✨</h1><p>Masallar, komik kahramanlar, mini oyunlar ve keşiflerle dolu rengârenk dünyana hoş geldin.</p><button class="primary" onclick="openStory(0)">▶ Bugünün masalını izle</button></div>
+</section>
+<nav class="nav">
+ <button class="active" data-page="home" onclick="go('home')">🏡 Ana Sayfa</button>
+ <button data-page="stories" onclick="go('stories')">🎬 Masallar</button>
+ <button data-page="games" onclick="go('games')">🎮 Oyunlar</button>
+ <button data-page="learn" onclick="go('learn')">🧠 Öğren</button>
+ <button data-page="draw" onclick="go('draw')">🎨 Çizim</button>
+ <button data-page="parent" onclick="go('parent')">👨‍👩‍👧 Aile</button>
 </nav>
 
-<main id="feed"></main>
-
-<section id="game">
-  <h1>⭐ Yıldız Yakala</h1>
-  <p>Yıldıza dokun, puanları topla!</p>
-  <div id="score">Puan: 0</div>
-  <div id="gameArea">
-    <button id="star" onclick="catchStar()">⭐</button>
-  </div>
-  <h2 id="gameMessage">Başlamak için butona bas!</h2>
-  <button onclick="startGame()">Oyunu Başlat</button>
+<main>
+<section id="home" class="page active">
+ <div class="section-head"><div><h2>🌟 Sana özel maceralar</h2><p>Her gün yeni bir şey keşfet!</p></div><span class="badge">Çocuk dünyası</span></div>
+ <div class="wide-card"><div style="display:flex;justify-content:space-between;gap:10px"><strong>🏆 Günlük keşif görevin</strong><strong id="taskCount">0/3</strong></div><p style="font-size:13px;color:#777c98">Bir masal izle, bir oyun oyna ve mini bir bilgi öğren.</p><div class="progress"><span id="taskProgress" style="width:0"></span></div></div>
+ <div class="section-head"><div><h2>🎬 Öne çıkan masallar</h2><p>Animasyonlu, kısa bölümlü özgün hikâyeler</p></div><button class="chip" onclick="go('stories')">Hepsini gör →</button></div>
+ <div class="grid" id="featured"></div>
+ <div class="section-head"><div><h2>🎮 Oyun zamanı</h2><p>Oyna, düşün, yıldız kazan</p></div><button class="chip" onclick="go('games')">Oyunlar →</button></div>
+ <div class="game-grid" id="homeGames"></div>
+ <div class="parent-note">🌱 HoloKids bir prototiptir. İçerikler özgün, kodla oluşturulmuş animasyonlu sahnelerdir; gerçek çekilmiş MP4 çizgi filmler değildir.</div>
 </section>
 
-<section id="parent">
-  <h1>👨‍👩‍👧 Ebeveyn Alanı</h1>
-  <p>Bu bölüm ilk prototipte bilgilendirme amaçlıdır. Gerçek PIN koruması henüz eklenmemiştir.</p>
-  <p>• Çocuklara uygun içerik tasarımı</p>
-  <p>• Açık mesajlaşma bulunmaz</p>
-  <p>• Gerçek hesap ve içerik denetimi için sunucu gerekir.</p>
-  <button onclick="showPage('feed')">Videolara dön</button>
+<section id="stories" class="page">
+ <div class="section-head"><div><h2>🎬 Masal sineması</h2><p>50 özgün hikâye, her biri 4 animasyonlu sahne</p></div></div>
+ <input class="search" id="storySearch" placeholder="🔎 Masal ara: panda, uzay, deniz..." oninput="renderStories()">
+ <div class="chips" id="storyFilters"></div>
+ <div class="grid" id="storyGrid"></div>
 </section>
 
-<footer>HoloKids • Özgün animasyonlu demo</footer>
+<section id="games" class="page">
+ <div class="section-head"><div><h2>🎮 Oyun parkı</h2><p>Minik oyunlar ve eğlenceli görevler</p></div></div>
+ <div class="game-grid" id="allGames"></div>
+ <div id="gamePlay" class="playbox" style="display:none"></div>
+</section>
+
+<section id="learn" class="page">
+ <div class="section-head"><div><h2>🧠 Meraklı zihinler</h2><p>Bilim, doğa, matematik ve kelimeler</p></div></div>
+ <div class="wide-card"><div class="tag">BİLGİ KARTI</div><h2 id="factTitle">🐙 Ahtapotların üç kalbi vardır!</h2><p id="factText">İki kalp solungaçlara kan gönderir, bir kalp de vücudun geri kalanına pompalar.</p><button class="primary" onclick="nextFact()">Yeni bilgi öğren ✨</button></div>
+ <div class="wide-card"><div class="tag">MİNİ BİLGİ YARIŞMASI</div><h2 id="quizQuestion">Hangi gezegen Kızıl Gezegen olarak bilinir?</h2><div id="quizAnswers"></div><p id="quizFeedback" aria-live="polite"></p></div>
+ <div class="wide-card"><h3>🔤 Kelime keşfi</h3><p>Bir kelime seç ve onunla bir cümle kur.</p><div class="badge-row" id="words"></div><p id="wordMeaning">Bir kelimeye dokun!</p></div>
+</section>
+
+<section id="draw" class="page">
+ <div class="section-head"><div><h2>🎨 Hayal Atölyesi</h2><p>Kendi resmini çiz ve renklendir.</p></div></div>
+ <div class="wide-card"><div class="draw-tools">
+ <button onclick="setColor('#ff5b77')">🔴 Kırmızı</button><button onclick="setColor('#398be8')">🔵 Mavi</button><button onclick="setColor('#35b878')">🟢 Yeşil</button><button onclick="setColor('#ffbd36')">🟡 Sarı</button><button onclick="setColor('#8b63dd')">🟣 Mor</button><button onclick="setColor('#252744')">✏️ Siyah</button><button onclick="clearCanvas()">🧽 Temizle</button></div>
+ <div class="canvas-wrap"><canvas id="canvas" width="900" height="450"></canvas></div>
+ <p style="text-align:center;color:#777c98;font-size:12px">Parmağınla veya farenle çiz. Çizimin cihazında kalır.</p></div>
+</section>
+
+<section id="parent" class="page">
+ <div class="section-head"><div><h2>👨‍👩‍👧 Aile köşesi</h2><p>HoloKids hakkında ebeveyn bilgileri</p></div></div>
+ <div class="parent-note"><strong>Önemli:</strong> Bu sürüm bir ön yüz prototipidir. Gerçek çocuk hizmeti olarak yayımlanmadan önce ebeveyn onayı, yaşa uygun içerik denetimi, veri güvenliği, gizlilik ve yasal gereklilikler uygulanmalıdır.</div>
+ <div class="wide-card"><h3>🛡️ Güvenli tasarım hedefleri</h3><ul><li>Açık sohbet ve yabancılardan mesaj yok.</li><li>Konum, telefon ve gerçek isim istenmez.</li><li>Reklam veya uygulama içi satın alma bulunmaz.</li><li>İçeriklerin yetişkinlerce incelenmesi gerekir.</li><li>Ekran süresi ayarı gerçek sürümde ebeveyn kontrolüyle yapılmalıdır.</li></ul></div>
+ <div class="wide-card"><h3>⏱️ Bu oturum</h3><p id="sessionTime">0 dakika</p><p style="font-size:13px;color:#777c98">Bu sayaç yalnızca açık sayfanın yaklaşık süresini gösterir; ebeveyn kilidi değildir.</p></div>
+ <div class="wide-card"><h3>🌟 Kazanılan yıldızlar</h3><div style="font-size:30px">⭐ <span id="parentCoins">0</span></div><button class="chip" onclick="resetProgress()">Demo ilerlemesini sıfırla</button></div>
+</section>
+</main>
+<div class="footer">HoloKids 🌈 · Merakla büyüyen küçük maceralar</div>
+</div>
+
+<div class="story-view" id="storyView">
+ <div class="story-top"><button class="close" onclick="closeStory()">×</button><div class="story-progress"><span id="storyBar"></span></div><span class="story-counter" id="storyCounter">1/4</span></div>
+ <div class="stage" id="storyStage"><div class="scene-emoji" id="sceneEmoji">🐼</div><div class="scene-title" id="sceneTitle"></div><div class="scene-text" id="sceneText"></div></div>
+ <div class="story-controls"><button class="secondary" onclick="prevScene()">← Geri</button><button class="next" id="nextScene" onclick="advanceScene()">Devam et →</button></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
 
 <script>
-const clips = [
-["Panda Pufi","🐼","#72d6c8","#257e91","Pufi dans etmeyi çok seviyor!"],
-["Uzay Macerası","🚀","#342b82","#9c65dc","Yıldızlara doğru yolculuk!"],
-["Dinozor Dodo","🦖","#7fce74","#247b50","Dodo yeni bir arkadaş buluyor."],
-["Uçan Kedi","🐱","#ffb5c9","#9458b7","Miyav! Bulutların üstündeyiz."],
-["Denizaltı Dünyası","🐠","#35c7d9","#17569a","Denizin renkli dünyasını keşfet."],
-["Robot Roki","🤖","#8d9dff","#3a43a5","Roki dans etmeyi öğrendi."],
-["Minik Tavşan","🐰","#ffd4a1","#e78c8c","Havuç peşinde bir macera!"],
-["Gökkuşağı","🌈","#ff9acb","#7466d9","Renkleri birlikte öğrenelim."],
-["Arı Bibi","🐝","#f6d65b","#e68c32","Bibi çiçekleri ziyaret ediyor."],
-["Penguen Pino","🐧","#80d5f2","#4256a5","Pino buzda kayıyor."],
-["Küçük Aslan","🦁","#ffbd61","#d86a37","Ormanın neşeli kralı."],
-["Balon Gezisi","🎈","#ffb6a5","#7d7bdb","Balonlarla gökyüzüne!"],
-["Tilki Fiko","🦊","#f8a35b","#9d4c37","Fiko ormanda saklambaç oynuyor."],
-["Ay Yolculuğu","🌙","#222b6e","#7058a9","Ayda kimler yaşıyor?"],
-["Zıpzıp Kurbağa","🐸","#a4e77b","#328c61","Kurbağa zıplamaya hazır!"],
-["Kelebek Bahçesi","🦋","#f2a8ed","#7067c9","Rengarenk kanatlar."],
-["Fil Filo","🐘","#a8c6f5","#637ab8","Filo suyla oyun oynuyor."],
-["Tatlı Panda","🐼","#ffb8b8","#8c69b5","Panda bugün çok mutlu."],
-["Yıldız Avcısı","⭐","#292e72","#bb67ba","Parlayan yıldızları bul!"],
-["Deniz Kızı","🧜‍♀️","#54d6d2","#4b69b7","Denizin altında macera."],
-["Köpek Boncuk","🐶","#e8bd83","#a56a50","Boncuk topunu arıyor."],
-["Roket Yarışı","🚀","#ef8f8f","#6c55bd","Hazır, başla, uç!"],
-["Zürafa Zuzu","🦒","#f8d36c","#b77a3c","Zuzu çok uzun boylu."],
-["Kardan Adam","☃️","#b7e9ff","#5479b9","Kışın eğlenceli günü."],
-["Minik Ejderha","🐉","#8ee3a1","#397e88","Ejderha ateş yerine baloncuk çıkarıyor."],
-["Müzik Zamanı","🎸","#ffb16b","#9b56b9","Haydi ritim tut!"],
-["Kaplumbağa Toti","🐢","#a9d88b","#41866b","Yavaş ama kararlı."],
-["Uçan Balık","🐟","#70d8ed","#2867a0","Balık gökyüzünü keşfediyor."],
-["Prensesin Kalesi","🏰","#e6a5dc","#7253a5","Masal başlıyor."],
-["Minik Astronot","👩‍🚀","#252e76","#875bc7","Yeni gezegen keşfi."],
-["Kanguru Kuki","🦘","#f4b46e","#a95e3e","Kuki zıplamayı seviyor."],
-["Çiçek Perisi","🧚","#f6a9d2","#6e9bba","Bahçeye sihir geldi."],
-["Yunus Dansı","🐬","#76d9ed","#3972a9","Yunuslarla dans et."],
-["Kirpi Pıtır","🦔","#e6b58b","#94634b","Pıtır yeni bir yol buluyor."],
-["Güneşli Gün","☀️","#ffdc70","#f28b55","Güne merhaba de!"],
-["Uzaylı Zuzu","👽","#a3e58d","#4b8c9c","Dost canlısı bir uzaylı."],
-["Tren Yolculuğu","🚂","#f5a76f","#7862aa","Çuf çuf! Yolculuk başlıyor."],
-["Koala Koko","🐨","#b7c9d5","#637b9e","Koko ağaçta dinleniyor."],
-["Kiraz Kardeşler","🍒","#f38b9b","#a94471","İki neşeli kiraz."],
-["Sihirli Kitap","📚","#e6b0f2","#6856a4","Kitapta yeni bir dünya var."],
-["Minik Tavus","🦚","#83d7c8","#397b9a","Rengarenk tüyler!"],
-["Volkan Macerası","🌋","#ff9b73","#9d454c","Dinozorlar volkanı keşfediyor."],
-["Kutup Ayısı","🐻‍❄️","#c8edff","#658ab8","Karlı bir macera."],
-["Çılgın Maymun","🐵","#f6c078","#a66a3c","Muz zamanı!"],
-["Uçan Halı","🪄","#c99bea","#6254aa","Masal gibi bir yolculuk."],
-["Minik Civciv","🐤","#ffe47c","#e9a64c","Cik cik! Yeni bir gün."],
-["Renkli Balıklar","🐠","#66d9e8","#3568b2","Denizde renk şöleni."],
-["Dans Eden Ayı","🐻","#d5a87e","#855d50","Ayıcık dans ediyor."],
-["Bulut Şehri","☁️","#b9dfff","#7775c9","Bulutların üzerinde şehir."],
-["Mutlu Çocuklar","🧒","#f4b7a1","#8c70c4","Birlikte öğrenmek çok güzel."]
+const stories=[
+["Panda Pufi ve Kayıp Bal","🐼","Orman","Pufi sabah uyandığında bal kavanozunun kaybolduğunu fark etti.","#8ee4c0","#277d78",["Pufi'nin güneşi","🐼","Pufi, bambu evinden neşeyle çıktı. Kahvaltı için en sevdiği balı aradı ama kavanoz yerinde yoktu!"],["Minik izler","🐾","Yerde minicik ayak izleri vardı. Pufi izleri takip etmeye karar verdi. Acaba balı kim almıştı?"],["Yeni arkadaş","🐰","Çalının arkasından Tavşan Lila çıktı. Balı almadığını, ama ormanda ağlayan bir yavru kuş gördüğünü söyledi."],["Paylaşmanın tadı","🐦","Bal kavanozu yavru kuşun yuvasının yanındaydı. Pufi balını arkadaşlarıyla paylaştı. Paylaşınca mutluluk çoğaldı!"]],
+["Dino Dodo'nun Cesareti","🦖","Dinozorlar","Dodo, ormanın öte yanında duyduğu sesi araştırmaya karar verdi.","#a6e77f","#31875d",["Gizemli ses","🦖","Dodo oyun oynarken uzaktan bir yardım sesi duydu. Bir an durdu, sonra derin bir nefes aldı."],["Karanlık mağara","🦇","Mağaranın içinden minik bir yarasa çıktı. Yolunu bulamıyordu. Dodo ona yardım etmek istedi."],["Işık yolu","✨","Dodo parlayan taşları takip etti. Mağaranın tavanındaki kristaller yolu aydınlattı."],["Cesur dost","🦇","Yarasa yuvasına kavuştu. Dodo cesaretin korkmamak değil, doğru olanı yapmak olduğunu öğrendi."]],
+["Roket Roki'nin Uzay Yolculuğu","🚀","Uzay","Roki, yıldız haritasındaki bilinmeyen gezegene doğru yola çıktı.","#9ca8ff","#413c91",["Geri sayım","🚀","Roki kaskını taktı. Beş, dört, üç, iki, bir! Roket gökyüzüne yükseldi."],["Ay istasyonu","🌙","Ay istasyonunda robot Luna ile tanıştı. Luna ona gezegen haritasını gösterdi."],["Mor gezegen","🪐","Mor gezegende zıplayan taşlar ve ışıklı çiçekler vardı. Roki her adımda yeni bir şey keşfetti."],["Dostluk mesajı","👽","Gezegenin sakinleri onlara yıldız şekilli bir taş hediye etti. Roki evine yeni dostlarla döndü."]],
+["Deniz Kızı Mira","🧜‍♀️","Deniz","Mira, mercan bahçesinin neden sessizleştiğini merak etti.","#77e3ee","#2865a7",["Sessiz resif","🐠","Mira mercan bahçesine geldiğinde balıkların saklandığını gördü. Her zamanki neşeli şarkılar duyulmuyordu."],["Plastik şişe","🫧","Bir şişe mercanların arasına sıkışmıştı. Mira tek başına çekemedi ve arkadaşlarını çağırdı."],["Birlikte temizle","🐢","Kaplumbağa Toti, yunus Pırıl ve Mira şişeyi dikkatlice çıkardı. Deniz yeniden nefes aldı."],["Mavi söz","🐬","Arkadaşlar denizi temiz tutmaya söz verdi. Mira, doğayı korumanın herkesin işi olduğunu öğrendi."]],
+["Bulutların Üstündeki Kedi","🐱","Hayvanlar","Mırmır, bir balonun peşinden bulutların üzerine çıktı.","#ffc4dc","#8a64bd",["Pembe balon","🎈","Mırmır bahçede oynarken pembe bir balon gökyüzüne doğru uçtu. Mırmır merakla peşinden baktı."],["Bulut treni","☁️","Bir bulut treni Mırmır'ı bulut şehrine götürdü. Her bulut farklı bir şekle benziyordu."],["Kayıp yıldız","⭐","Bulut şehrinin ışığı sönmüştü. Küçük yıldız yuvasından düşmüştü."],["Eve dönüş","🐱","Mırmır yıldızı yerine koydu. Bulut şehri parladı ve ona eve dönmesi için gökkuşağı yolu açıldı."]],
+["Peri Lila'nın Bahçesi","🧚","Fantastik","Lila'nın sihirli bahçesindeki çiçekler renklerini kaybetti.","#f7b6e5","#8061c5",["Solan çiçekler","🌷","Lila sabah bahçesine geldi. En sevdiği çiçeklerin renkleri solmuştu."],["Renk damlaları","🌈","Bilge baykuş, renk damlalarının rüzgârla dağıldığını söyledi."],["Üç görev","🦋","Lila mavi kelebeğe, sarı arıya ve pembe tavşana yardım ederek damlaları buldu."],["Bahçe şenliği","🌺","Renkler geri geldi. Lila, küçük iyiliklerin dünyayı güzelleştirdiğini anladı."]],
+["Kutup Ayısı Pofuduk","🐻‍❄️","Doğa","Pofuduk, buzların arasında kaybolan küçük penguene yardım etti.","#c6edff","#527fbd",["Buzda sabah","❄️","Pofuduk buz üzerinde yürürken uzaktan ince bir ses duydu."],["Penguen Pıtı","🐧","Minik Pıtı ailesini bulamıyordu. Pofuduk onunla birlikte iz aramaya başladı."],["Kutup yıldızı","🌟","Gökyüzündeki parlak yıldız, penguenlerin yaşadığı kıyıyı gösterdi."],["Sıcak dostluk","🐻‍❄️","Pıtı ailesine kavuştu. Pofuduk da yeni bir arkadaş kazandı."]],
+["Robot Roki ve Kayıp Vida","🤖","Bilim","Roki, icat yarışmasından önce kayıp parçayı bulmalıydı.","#b7c2ff","#5754a5",["Büyük icat","⚙️","Roki uçan bir kitaplık yapıyordu. Ama son vidası ortadan kaybolmuştu."],["Atölye araması","🔍","Masaların altına, kutulara ve alet çantasına baktı. Vida hiçbir yerde yoktu."],["Mıknatıs fikri","🧲","Arkadaşı Ada mıknatıs kullanmayı önerdi. Vida metal parçaların arasından çıktı."],["İcat günü","🎉","Kitaplık havalandı! Roki, denemekten ve yardım istemekten vazgeçmemeyi öğrendi."]],
+["Tilki Fiko ve Orman Haritası","🦊","Orman","Fiko, yaşlı meşe ağacına giden gizli yolu aradı.","#ffc18c","#a45a3b",["Eski harita","🗺️","Fiko dedesinin sandığında eski bir harita buldu. Haritada büyük bir meşe ağacı çizilmişti."],["Dereyi geçmek","🌊","Fiko dereye geldi. Taşları sırayla kullanarak güvenli bir geçit buldu."],["Baykuşun ipucu","🦉","Baykuş, haritadaki üç yaprağın aynı ağacı gösterdiğini anlattı."],["Meşe ağacı","🌳","Fiko ağacın altında arkadaşlarıyla piknik yaptı. En güzel hazinenin birlikte geçirilen zaman olduğunu anladı."]],
+["Yunus Pırıl'ın Şarkısı","🐬","Deniz","Pırıl, denizin altındaki kayıp melodiyi bulmak istedi.","#85e7ef","#306aa9",["Melodi kayboldu","🎵","Pırıl'ın resifinde her sabah duyulan şarkı birden kesildi."],["Deniz kabukları","🐚","Pırıl farklı kabuklara dokundu. Her kabuk başka bir nota çıkardı."],["Koro kuruldu","🐠","Balıklar, yengeçler ve kaplumbağalar sırayla şarkıya katıldı."],["Büyük konser","🎶","Deniz yeniden müzikle doldu. Pırıl herkesin farklı sesinin güzel olduğunu öğrendi."]]
 ];
-
-const feed=document.getElementById("feed");
-const floating=["✨","🌟","💫","☁️","🫧","🌸"];
-
-clips.forEach((c,i)=>{
-  const card=document.createElement("article");
-  card.className="video";
-  card.style.setProperty("--a",c[2]);
-  card.style.setProperty("--b",c[3]);
-  const scene=document.createElement("div");
-  scene.className="scene";
-  for(let j=0;j<9;j++){
-    const orb=document.createElement("span");
-    orb.className="orb";
-    orb.textContent=floating[(i+j)%floating.length];
-    orb.style.left=((j*13+7)%96)+"%";
-    orb.style.animationDelay=(-j*0.7)+"s";
-    orb.style.animationDuration=(4+(j%4))+"s";
-    scene.appendChild(orb);
-  }
-  const character=document.createElement("div");
-  character.className="character";
-  character.textContent=c[1];
-  character.style.animationDelay=(-i*0.13)+"s";
-  scene.appendChild(character);
-
-  const info=document.createElement("div");
-  info.className="videoInfo";
-  info.innerHTML="<h2>"+(i+1)+". "+c[0]+"</h2><p>"+c[4]+"</p><p>🎬 HoloKids özgün animasyonu</p>";
-
-  const actions=document.createElement("div");
-  actions.className="actions";
-  let liked=false, saved=false;
-  const like=document.createElement("div");
-  like.innerHTML='<button>🤍</button><small>Beğen</small>';
-  like.querySelector("button").onclick=()=>{
-    liked=!liked;
-    like.querySelector("button").textContent=liked?"❤️":"🤍";
-  };
-  const fav=document.createElement("div");
-  fav.innerHTML='<button>⭐</button><small>Favori</small>';
-  fav.querySelector("button").onclick=()=>{
-    saved=!saved;
-    fav.querySelector("button").textContent=saved?"🌟":"⭐";
-  };
-  actions.append(like,fav);
-  card.append(scene,info,actions);
-  feed.appendChild(card);
-});
-
-function showPage(page){
-  feed.style.display=page==="feed"?"block":"none";
-  document.getElementById("game").style.display=page==="game"?"block":"none";
-  document.getElementById("parent").style.display="none";
-  document.getElementById("feedTab").classList.toggle("active",page==="feed");
-  document.getElementById("gameTab").classList.toggle("active",page==="game");
-}
-function showParent(){
-  feed.style.display="none";
-  document.getElementById("game").style.display="none";
-  document.getElementById("parent").style.display="block";
-}
-let score=0,seconds=20,timer=null;
-const star=document.getElementById("star");
-function moveStar(){
-  const area=document.getElementById("gameArea");
-  const x=Math.random()*(area.clientWidth-60);
-  const y=Math.random()*(area.clientHeight-60);
-  star.style.left=x+"px";
-  star.style.top=y+"px";
-}
-function catchStar(){
-  if(!timer)return;
-  score++;
-  document.getElementById("score").textContent="Puan: "+score;
-  moveStar();
-}
-function startGame(){
-  clearInterval(timer);
-  score=0;seconds=20;
-  timer=true;
-  document.getElementById("score").textContent="Puan: 0";
-  document.getElementById("gameMessage").textContent="20 saniyede kaç yıldız yakalayacaksın?";
-  moveStar();
-  const interval=setInterval(()=>{
-    seconds--;
-    document.getElementById("gameMessage").textContent="Kalan süre: "+seconds+" saniye";
-    if(seconds<=0){
-      clearInterval(interval);
-      timer=null;
-      star.style.left="-100px";
-      document.getElementById("gameMessage").textContent="Oyun bitti! Toplam puanın: "+score;
-    }
-  },1000);
-  timer=interval;
-}
+const extra=[
+["Zuzu'nun Renkli Treni","🦒","Hayvanlar","Zuzu arkadaşlarını renkli trenine davet etti."],
+["Minik Ejderha Köpük","🐉","Fantastik","Köpük ateş yerine rengârenk baloncuklar çıkarıyordu."],
+["Ay'daki Piknik","🌙","Uzay","Astronot Ada ayda unutulmaz bir piknik yaptı."],
+["Kelebek Bibi'nin Dönüşümü","🦋","Doğa","Bibi sabırla büyüyüp güzel bir kelebeğe dönüştü."],
+["Kayıp Hazine Sandığı","🗝️","Macera","Üç arkadaş eski bir sandığın sırrını çözdü."],
+["Küçük Fil Filo","🐘","Hayvanlar","Filo hortumuyla arkadaşlarına yardım etmeyi öğrendi."],
+["Sihirli Kitaplık","📚","Fantastik","Bir kitap açıldı ve içinden masal dünyası çıktı."],
+["Kanguru Kuki'nin Yarışı","🦘","Spor","Kuki yarışta hızdan çok dostluğun önemli olduğunu gördü."],
+["Arı Bibi'nin Çiçekleri","🐝","Doğa","Bibi çiçeklerin büyümesi için bahçeyi dolaştı."],
+["Korsan Kaplumbağa","🐢","Macera","Toti denizde kayıp bir harita buldu."],
+["Gökkuşağı Köprüsü","🌈","Fantastik","Renkler birleşince köprü ortaya çıktı."],
+["Küçük Astronot Ada","👩‍🚀","Uzay","Ada yeni bir gezegende yaşam izleri aradı."],
+["Penguen Pino'nun Kaykayı","🐧","Spor","Pino buz üzerinde kaymayı öğrendi."],
+["Muz Peşindeki Maymun","🐵","Komedi","Momo muzunu bulmak için komik bir maceraya çıktı."],
+["Çiçeklerin Konuştuğu Gün","🌼","Doğa","Bahçedeki çiçekler birbirlerine teşekkür etti."],
+["Tren İstasyonundaki Sürpriz","🚂","Macera","Küçük tren hiç beklemediği bir misafir taşıdı."],
+["Koala Koko'nun Uykusu","🐨","Hayvanlar","Koko uyumadan önce yıldızları saydı."],
+["Deniz Altı Okulu","🐠","Öğrenme","Balıklar birlikte yeni şeyler öğrendi."],
+["Cesur Minik Civciv","🐤","Hayvanlar","Civciv ilk kez yuvadan biraz uzaklaştı."],
+["Bulut Şehrinin Sırrı","☁️","Fantastik","Bulutların neden şekil değiştirdiğini keşfettiler."],
+["Dostluk Ağacı","🌳","Doğa","Her arkadaş ağaca bir dilek yaprağı astı."],
+["Yıldız Tozu Dedektifleri","🔎","Uzay","İki kardeş gökyüzündeki ışığın izini sürdü."],
+["Balonla Dünya Turu","🎈","Macera","Balon ekibi kıtaları ve hayvanları tanıdı."],
+["Kardan Adamın Yaz Rüyası","☃️","Komedi","Kardan adam yazı merak etti ve serin bir çözüm buldu."],
+["Minik Müzisyenler","🎸","Müzik","Orman arkadaşları birlikte bir şarkı besteledi."],
+["Volkanın Kalbindeki Kristal","💎","Bilim","Dodo kristallerin nasıl oluştuğunu öğrendi."],
+["Kirpi Pıtır'ın Büyük Günü","🦔","Hayvanlar","Pıtır ilk kez kendi başına piknik hazırladı."],
+["Zaman Makinesi Oyuncağı","⏰","Bilim","Roki geçmişin oyuncaklarını keşfetti."],
+["Yıldızlara Mektup","💌","Uzay","Ada uzaya dostluk mektubu gönderdi."],
+["Ormanın Mini Olimpiyatı","🏅","Spor","Hayvanlar eğlenceli oyunlarda yarıştı."],
+["Saklambaç Şampiyonu","🙈","Komedi","Herkesin bulduğu en komik saklanma yeri ortaya çıktı."],
+["Deniz Fenerinin Işığı","🗼","Macera","Yunuslar fenerin ışığını yeniden yakmaya yardım etti."],
+["Prenses ve Nazik Ejderha","👑","Fantastik","Prenses, ejderhanın aslında yalnız olduğunu keşfetti."],
+["Renkleri Öğreniyoruz","🎨","Öğrenme","Panda ana ve ara renkleri karıştırdı."],
+["Minik Bilim İnsanları","🧪","Bilim","Çocuklar güvenli bir renk deneyi yaptı."],
+["Ayıcık Baloncuk","🫧","Komedi","Ayıcık sabun köpüklerinin peşinden koştu."],
+["Orman Postacısı","📮","Hayvanlar","Tavşan mektupları doğru yuvalara ulaştırdı."],
+["Kayıp Nota","🎼","Müzik","Pırıl şarkının son notasını buldu."],
+["Küçük Bahçıvan","🪴","Doğa","Bir tohumun büyümesini gün gün izlediler."],
+["Dostluk Uzay Gemisi","🛸","Uzay","Farklı gezegenlerden çocuklar takım oldu."]
+];
+extra.forEach((e,i)=>stories.push([e[0],e[1],e[2],e[3],"#"+["8ddfc8","ffc18c","9ca8ff","f7b6e5","85e7ef"][i%5],"#"+["287e78","a45a3b","413c91","8061c5","306aa9"][i%5],
+["Başlangıç",e[1],e[3]+" Her şey meraklı bir soruyla başladı."],
+["İlk ipucu","🔍","Kahramanımız dikkatlice etrafına baktı ve küçük bir ipucu buldu."],
+["Birlikte çözüm","🤝","Arkadaşları yardıma geldi. Herkes kendi fikrini paylaştı."],
+["Mutlu son","🎉","Macera güzel bir sonla bitti. Yeni bir şey öğrendiler!"]]));
+const categories=["Hepsi","Orman","Uzay","Deniz","Fantastik","Hayvanlar","Doğa","Macera","Bilim","Komedi","Öğrenme","Spor","Müzik"];
+let activeCategory="Hepsi",coins=Number(localStorage.getItem("hkcoins")||0),doneTasks=new Set(),currentStory=0,currentScene=0,sessionStart=Date.now(),currentColor="#252744";
+const $=id=>document.getElementById(id);
+function saveCoins(n){coins+=n;localStorage.setItem("hkcoins",coins);$("coins").textContent=coins;$("parentCoins").textContent=coins}
+$("coins").textContent=coins;$("parentCoins").textContent=coins;
+function toast(s){$("toast").textContent=s;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2100)}
+function go(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));window.scrollTo({top:0,behavior:"smooth"});if(id==="parent")updateSession()}
+function tile(story,i){return `<article class="tile"><div class="tile-art" style="background:linear-gradient(135deg,${story[4]},${story[5]})"><span>${story[1]}</span></div><div class="tile-body"><span class="tag">${story[2]}</span><strong>${story[0]}</strong><small>✨ 4 sahneli masal</small><button onclick="openStory(${i})">Masalı başlat ▶</button></div></article>`}
+function renderStories(){let q=$("storySearch").value.toLocaleLowerCase("tr");$("storyGrid").innerHTML=stories.map((s,i)=>({s,i})).filter(x=>(activeCategory==="Hepsi"||x.s[2]===activeCategory)&&(x.s[0]+" "+x.s[2]).toLocaleLowerCase("tr").includes(q)).map(x=>tile(x.s,x.i)).join("")}
+function setupFilters(){$("storyFilters").innerHTML=categories.map(c=>`<button class="chip ${c===activeCategory?"active":""}" onclick="activeCategory='${c}';setupFilters();renderStories()">${c}</button>`).join("")}
+function renderHome(){$("featured").innerHTML=[0,1,2,3,4,5].map(i=>tile(stories[i],i)).join("");}
+function openStory(i){currentStory=i;currentScene=0;$("storyView").classList.add("open");document.body.style.overflow="hidden";showScene()}
+function closeStory(){$("storyView").classList.remove("open");document.body.style.overflow="";markTask("story")}
+function showScene(){let s=stories[currentStory],sc=s[6][currentScene];$("storyStage").style.setProperty("--s1",s[4]);$("storyStage").style.setProperty("--s2",s[5]);$("sceneTitle").textContent=sc[0];$("sceneEmoji").textContent=sc[1];$("sceneText").textContent=sc[2];$("storyCounter").textContent=(currentScene+1)+"/4";$("storyBar").style.width=((currentScene+1)*25)+"%";$("nextScene").textContent=currentScene===3?"Masalı bitir ⭐":"Devam et →"}
+function advanceScene(){if(currentScene<3){currentScene++;showScene()}else{closeStory();saveCoins(3);toast("Masalı tamamladın! +3 yıldız ⭐")}}
+function prevScene(){if(currentScene>0){currentScene--;showScene()}}
+function markTask(k){doneTasks.add(k);$("taskCount").textContent=doneTasks.size+"/3";$("taskProgress").style.width=(doneTasks.size/3*100)+"%"}
+function gameCards(){return [
+["⭐","Yıldız Yakala","20 saniyede yıldızlara dokun.","stars"],
+["🧠","Hafıza Kartları","Aynı resimleri eşleştir.","memory"],
+["🔢","Sayı Canavarı","Doğru sonucu bul.","math"],
+["🎯","Renk Avı","İstenen rengi bul.","color"],
+["🐾","Hayvan Sesleri","Hayvanı tahmin et.","animal"],
+["🧩","Mini Bilmece","İpuçlarından cevabı bul.","riddle"]
+]}
+function renderGameCards(target){$(target).innerHTML=gameCards().map(g=>`<div class="game-card"><div class="game-icon">${g[0]}</div><h3>${g[1]}</h3><p>${g[2]}</p><button onclick="startMini('${g[3]}')">Oyna ▶</button></div>`).join("")}
+function startMini(type){let box=$("gamePlay");box.style.display="block";box.scrollIntoView({behavior:"smooth",block:"start"});if(type==="stars")starGame(box);if(type==="memory")memoryGame(box);if(type==="math")mathGame(box);if(type==="color")colorGame(box);if(type==="animal")animalGame(box);if(type==="riddle")riddleGame(box)}
+function gameDone(msg){saveCoins(2);markTask("game");toast(msg||"Harika oynadın! +2 yıldız ⭐")}
+function starGame(b){let n=0,t=20; b.innerHTML=`<h2>⭐ Yıldız Yakala</h2><b id="gscore">Puan: 0 · Süre: 20</b><div class="play-area" id="starArea"><button class="target" id="starTarget">⭐</button></div><p>Yıldızlara dokunabildiğin kadar dokun!</p>`;let area=$("starArea"),target=$("starTarget");function move(){target.style.left=Math.random()*(area.clientWidth-55)+"px";target.style.top=Math.random()*(area.clientHeight-55)+"px"}target.onclick=()=>{n++;$("gscore").textContent=`Puan: ${n} · Süre: ${t}`;move()};move();let timer=setInterval(()=>{t--;$("gscore").textContent=`Puan: ${n} · Süre: ${t}`;if(t<=0){clearInterval(timer);b.insertAdjacentHTML("beforeend",`<h3>Oyun bitti! ${n} yıldız yakaladın 🎉</h3><button class="primary" onclick="startMini('stars')">Tekrar oyna</button>`);gameDone()}},1000)}
+function memoryGame(b){let icons=["🐼","🚀","🦋","🐬","🍓","🌈","🐸","⭐"];let deck=[...icons,...icons].sort(()=>Math.random()-.5),first=null,lock=false,matches=0;b.innerHTML='<h2>🧠 Hafıza Kartları</h2><p>Eş kartları bul!</p><div class="memory-grid" id="memGrid"></div>';deck.forEach((v,i)=>{let bt=document.createElement("button");bt.className="memory-card";bt.textContent="?";bt.onclick=()=>{if(lock||bt.classList.contains("opened"))return;bt.textContent=v;bt.classList.add("opened");if(!first){first=bt;return}lock=true;if(first.textContent===bt.textContent){matches++;first=null;lock=false;if(matches===8){b.insertAdjacentHTML("beforeend","<h3>Hepsini buldun! 🎉</h3>");gameDone()}}else{let old=first;first=null;setTimeout(()=>{old.textContent="?";bt.textContent="?";old.classList.remove("opened");bt.classList.remove("opened");lock=false},700)}};$("memGrid").appendChild(bt)})}
+function mathGame(b){let a=Math.ceil(Math.random()*9),c=Math.ceil(Math.random()*9),ans=a+c,opts=[ans,ans+1,Math.max(0,ans-2),ans+3].sort(()=>Math.random()-.5);b.innerHTML=`<h2>🔢 Sayı Canavarı</h2><div style="font-size:44px">${a} + ${c} = ?</div><div id="mathOpts"></div><p id="mathMsg"></p>`;opts.forEach(x=>{let bt=document.createElement("button");bt.className="answer";bt.textContent=x;bt.onclick=()=>{if(x===ans){$("mathMsg").textContent="Doğru cevap! Harikasın 🎉";gameDone()}else $("mathMsg").textContent="Bir daha düşün! 😊"};$("mathOpts").appendChild(bt)})}
+function colorGame(b){let colors=[["Kırmızı","#ff5964"],["Mavi","#398be8"],["Yeşil","#35b878"],["Sarı","#ffbd36"]],chosen=colors[Math.floor(Math.random()*4)];b.innerHTML=`<h2>🎯 Renk Avı</h2><p>${chosen[0]} rengi bul!</p><div id="colorOpts"></div><p id="colorMsg"></p>`;colors.sort(()=>Math.random()-.5).forEach(c=>{let bt=document.createElement("button");bt.style.cssText=`width:65px;height:65px;border-radius:18px;margin:8px;background:${c[1]}`;bt.setAttribute("aria-label",c[0]);bt.onclick=()=>{if(c===chosen){$("colorMsg").textContent="Buldun! 🎉";gameDone()}else $("colorMsg").textContent="Tekrar dene!"};$("colorOpts").appendChild(bt)})}
+function animalGame(b){let animals=[["🐮","İnek"],["🐱","Kedi"],["🐶","Köpek"],["🦁","Aslan"],["🐸","Kurbağa"]],a=animals[Math.floor(Math.random()*animals.length)],opts=[a[1],"Kuş","Balık","At"].sort(()=>Math.random()-.5);b.innerHTML=`<h2>🐾 Hayvanı Tanı</h2><div style="font-size:85px">${a[0]}</div><p>Bu hangi hayvan?</p><div id="animalOpts"></div><p id="animalMsg"></p>`;opts.forEach(x=>{let bt=document.createElement("button");bt.className="answer";bt.textContent=x;bt.onclick=()=>{if(x===a[1]){$("animalMsg").textContent="Bildin!";gameDone()}else $("animalMsg").textContent="Bir daha dene!"};$("animalOpts").appendChild(bt)})}
+function riddleGame(b){let r=[["Dört ayağım var ama yürüyemem. Neyim?","Masa"],["Gökyüzünde parlarım, gece görünürüm. Neyim?","Yıldız"],["Yağmurdan sonra çıkar, yedi rengim var. Neyim?","Gökkuşağı"]][Math.floor(Math.random()*3)];b.innerHTML=`<h2>🧩 Mini Bilmece</h2><p style="font-size:20px">${r[0]}</p><input id="riddleAnswer" class="search" placeholder="Cevabını yaz"><button class="primary" onclick="if($('riddleAnswer').value.trim().toLocaleLowerCase('tr')==='${r[1].toLocaleLowerCase('tr')}'){$('riddleMsg').textContent='Doğru!';gameDone()}else $('riddleMsg').textContent='Bir daha düşün!';">Kontrol et</button><p id="riddleMsg"></p>`}
+const facts=[["🐙 Ahtapotların üç kalbi vardır!","İki kalp solungaçlara kan gönderir, biri vücudun geri kalanına pompalar."],["🌱 Bitkiler güneş ışığını kullanır.","Bitkiler güneş ışığı, su ve havadaki karbondioksitle besin üretir."],["🪐 Satürn'ün halkaları vardır.","Halkaları çoğunlukla buz ve kaya parçalarından oluşur."],["🐝 Arılar çiçeklere yardım eder.","Çiçekten çiçeğe polen taşıyarak bitkilerin çoğalmasına destek olurlar."],["🐬 Yunuslar memelidir.","Yavrularını sütle besler ve nefes almak için su yüzeyine çıkarlar."],["🌈 Gökkuşağı nasıl oluşur?","Güneş ışığı su damlalarında kırılıp renklere ayrıldığında gökkuşağı görülebilir."]];
+let factIndex=0;function nextFact(){factIndex=(factIndex+1)%facts.length;$("factTitle").textContent=facts[factIndex][0];$("factText").textContent=facts[factIndex][1];saveCoins(1);markTask("learn")}
+const quizzes=[["Hangi gezegen Kızıl Gezegen olarak bilinir?",["Mars","Venüs","Jüpiter"],0],["Bir haftada kaç gün vardır?",["5","7","9"],1],["Arılar ne üretir?",["Bal","Süt","Ekmek"],0],["Dünyamızın uydusu hangisidir?",["Güneş","Ay","Mars"],1],["En büyük kara hayvanı hangisidir?",["Fil","Kedi","Tilki"],0]];
+let qi=0;function showQuiz(){let q=quizzes[qi];$("quizQuestion").textContent=q[0];$("quizAnswers").innerHTML="";q[1].forEach((x,i)=>{let bt=document.createElement("button");bt.className="answer";bt.textContent=x;bt.onclick=()=>{if(i===q[2]){$("quizFeedback").textContent="Bravo! Doğru cevap 🌟";saveCoins(1);markTask("learn");setTimeout(()=>{qi=(qi+1)%quizzes.length;showQuiz()},1000)}else $("quizFeedback").textContent="Bir daha dene, yapabilirsin! 😊"};$("quizAnswers").appendChild(bt)})}
+const wordList=[["Merak","Yeni bir şeyi öğrenme isteği."],["Dostluk","Birbirine sevgi ve destek vermek."],["Doğa","Canlılar, bitkiler, hayvanlar ve çevremiz."],["Cesaret","Zor bir durumda doğru adımı atmak."],["Paylaşmak","Sahip olduğumuz şeyi başkalarıyla bölüşmek."],["Keşif","Daha önce bilinmeyen bir şeyi bulmak."]];
+$("words").innerHTML=wordList.map(w=>`<button class="badge" onclick="showWord('${w[0]}')">${w[0]}</button>`).join("");function showWord(w){let item=wordList.find(x=>x[0]===w);$("wordMeaning").textContent=w+": "+item[1]}
+function setColor(c){currentColor=c}
+const canvas=$("canvas"),ctx=canvas.getContext("2d");ctx.lineCap="round";ctx.lineJoin="round";ctx.lineWidth=9;let drawing=false;function point(e){let r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*canvas.width/r.width,y:(e.clientY-r.top)*canvas.height/r.height}}canvas.addEventListener("pointerdown",e=>{drawing=true;canvas.setPointerCapture(e.pointerId);let p=point(e);ctx.beginPath();ctx.moveTo(p.x,p.y)});canvas.addEventListener("pointermove",e=>{if(!drawing)return;let p=point(e);ctx.strokeStyle=currentColor;ctx.lineTo(p.x,p.y);ctx.stroke()});canvas.addEventListener("pointerup",()=>drawing=false);canvas.addEventListener("pointercancel",()=>drawing=false);function clearCanvas(){ctx.clearRect(0,0,canvas.width,canvas.height)}
+function updateSession(){$("sessionTime").textContent=Math.floor((Date.now()-sessionStart)/60000)+" dakika"}
+function resetProgress(){if(confirm("Demo yıldızlarını sıfırlamak istiyor musun?")){coins=0;localStorage.setItem("hkcoins",0);$("coins").textContent=0;$("parentCoins").textContent=0;toast("Demo ilerlemesi sıfırlandı.")}}
+renderHome();setupFilters();renderStories();renderGameCards("allGames");renderGameCards("homeGames");showQuiz();setInterval(updateSession,30000);
 </script>
 </body>
 </html>
-
